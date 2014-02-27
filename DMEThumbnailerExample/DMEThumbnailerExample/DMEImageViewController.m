@@ -34,20 +34,21 @@
 - (IBAction)generate:(id)sender {
     NSString *path = [[NSBundle mainBundle] pathForResource:@"image" ofType:@"jpg"];
     
-    [[DMEThumbnailer sharedInstance] generateImageThumbnails:path completionBlock:^(NSDictionary *thumbs) {
-        for (NSString *prefix in thumbs) {
-            if([prefix isEqualToString:@"small"]){
-                self.imgSmall.image = [thumbs objectForKey:prefix];
-            }
-            else if ([prefix isEqualToString:@"large"]){
-                self.imgLarge.image = [thumbs objectForKey:prefix];
-            }
-        }
-        
-        self.btnGenerate.hidden = YES;
-        self.btnRemove.hidden = NO;
-    }];
-    
+    [[DMEThumbnailer sharedInstance] generateImageThumbnails:path
+                                               afterGenerate:nil
+                                             completionBlock:^(NSDictionary *thumbs) {
+                                                 for (NSString *prefix in thumbs) {
+                                                     if([prefix isEqualToString:@"small"]){
+                                                         self.imgSmall.image = [thumbs objectForKey:prefix];
+                                                     }
+                                                     else if ([prefix isEqualToString:@"large"]){
+                                                         self.imgLarge.image = [thumbs objectForKey:prefix];
+                                                     }
+                                                 }
+                                                 
+                                                 self.btnGenerate.hidden = YES;
+                                                 self.btnRemove.hidden = NO;
+                                             }];
 }
 
 - (IBAction)remove:(id)sender {

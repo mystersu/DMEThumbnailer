@@ -34,19 +34,21 @@
 - (IBAction)generate:(id)sender {
     NSString *path = [[NSBundle mainBundle] pathForResource:@"pdf" ofType:@"pdf"];
     
-    [[DMEThumbnailer sharedInstance] generatePDFThumbnails:path completionBlock:^(NSDictionary *thumbs) {
-        for (NSString *prefix in thumbs) {
-            if([prefix isEqualToString:@"small"]){
-                self.imgSmall.image = [thumbs objectForKey:prefix];
-            }
-            else if ([prefix isEqualToString:@"large"]){
-                self.imgLarge.image = [thumbs objectForKey:prefix];
-            }
-        }
-        
-        self.btnGenerate.hidden = YES;
-        self.btnRemove.hidden = NO;
-    }];
+    [[DMEThumbnailer sharedInstance] generatePDFThumbnails:path
+                                             afterGenerate:nil
+                                           completionBlock:^(NSDictionary *thumbs) {
+                                               for (NSString *prefix in thumbs) {
+                                                   if([prefix isEqualToString:@"small"]){
+                                                       self.imgSmall.image = [thumbs objectForKey:prefix];
+                                                   }
+                                                   else if ([prefix isEqualToString:@"large"]){
+                                                       self.imgLarge.image = [thumbs objectForKey:prefix];
+                                                   }
+                                               }
+
+                                               self.btnGenerate.hidden = YES;
+                                               self.btnRemove.hidden = NO;
+                                           }];
     
 }
 
